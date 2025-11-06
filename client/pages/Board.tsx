@@ -1,14 +1,33 @@
 import { KanbanBoard } from "@/components/kanban/KanbanBoard";
+import { useRef } from "react";
+import { KanbanBoard } from "@/components/kanban/KanbanBoard";
 import { NotesPanel } from "@/components/notes/NotesPanel";
 import { Button } from "@/components/ui/button";
 import { Plus, Users } from "lucide-react";
+import FloatingBackground from "@/components/visuals/FloatingBackground";
 
 export default function Board() {
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  function onMove(e: React.MouseEvent) {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    el.style.setProperty("--mx", String(x));
+    el.style.setProperty("--my", String(y));
+  }
+
   return (
-    <div className="container mx-auto px-6 py-6 space-y-6">
+    <div ref={ref} onMouseMove={onMove} className="relative container mx-auto px-6 py-8 overflow-hidden">
+      <FloatingBackground />
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-6">
         <div className="lg:col-span-2 space-y-4">
-          <KanbanBoard />
+          <div className="rounded-2xl p-4 bg-white/60 dark:bg-white/5 backdrop-blur border border-white/20 shadow-inner">
+            <KanbanBoard />
+          </div>
         </div>
         <div className="lg:col-span-1">
           <NotesPanel />
