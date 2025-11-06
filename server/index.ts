@@ -51,10 +51,17 @@ export async function createServer() {
   return { app, server, io };
 }
 
-if (require.main === module) {
-  (async () => {
-    const { server } = await createServer();
-    const port = Number(process.env.PORT || 8080);
-    server.listen(port, () => console.log(`Server listening on ${port}`));
-  })();
+try {
+  // When running in CommonJS, `require` and `module` exist. In ESM (vite bundling) they don't.
+  // Guard access to avoid ReferenceError during Vite config bundling.
+  // @ts-ignore
+  if (typeof require !== "undefined" && require.main === module) {
+    (async () => {
+      const { server } = await createServer();
+      const port = Number(process.env.PORT || 8080);
+      server.listen(port, () => console.log(`Server listening on ${port}`));
+    })();
+  }
+} catch (e) {
+  // ignore in ESM/bundled contexts
 }
