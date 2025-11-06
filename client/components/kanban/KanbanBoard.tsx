@@ -34,7 +34,7 @@ const columns: { id: ColumnId; title: string }[] = [
   { id: "done", title: "Done" },
 ];
 
-export function KanbanBoard() {
+export default function KanbanBoard() {
   const [cards, setCards] = useState<Card[]>(initial);
 
   const byColumn = useMemo(() => {
