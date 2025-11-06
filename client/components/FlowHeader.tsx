@@ -1,5 +1,6 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import Logo from "@/components/Logo";
 import {
   DropdownMenu,
   DropdownMenuContent,
