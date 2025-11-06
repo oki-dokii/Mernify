@@ -29,9 +29,10 @@ function expressPlugin(): Plugin {
   return {
     name: "express-plugin",
     apply: "serve", // Only apply during development (serve mode)
-    configureServer(server) {
-      const app = createServer();
-
+    async configureServer(server) {
+      // When Vite imports the server during dev, avoid connecting to a real MongoDB instance
+      const srv = await createServer({ connectDB: false });
+      const app = srv.app;
       // Add Express app as middleware to Vite dev server
       server.middlewares.use(app);
     },
