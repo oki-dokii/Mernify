@@ -13,6 +13,7 @@ import notesRoutes from "./routes/notes";
 import activityRoutes from "./routes/activity";
 import teamsRoutes from "./routes/teams";
 import inviteRoutes from "./routes/invite";
+import userRoutes from "./routes/user";
 import { handleDemo } from "./routes/demo";
 import { errorHandler } from "./middleware/errorHandler";
 import { initSocket } from "./socket";
