@@ -10,6 +10,7 @@ import { getNote, updateNote as updateNoteAPI } from "@/lib/api";
 
 export function NotesPanel() {
   const { currentBoard } = useBoard();
+  const navigate = useNavigate();
   const [value, setValue] = useState<string>("");
   const [syncing, setSyncing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
