@@ -2,6 +2,18 @@ import { RequestHandler } from "express";
 import { Card } from "../models/Card";
 import mongoose from "mongoose";
 
+export const listCards: RequestHandler = async (req, res, next) => {
+  try {
+    const { boardId } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(boardId))
+      return res.status(400).json({ message: "Invalid boardId" });
+    const cards = await Card.find({ boardId }).sort({ order: 1 });
+    res.json({ cards });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const createCard: RequestHandler = async (req, res, next) => {
   try {
     const { boardId, columnId, title, description, assigneeId, dueDate, tags } =
