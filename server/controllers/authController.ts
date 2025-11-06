@@ -5,8 +5,8 @@ import { User } from "../models/User";
 
 const ACCESS_EXPIRES = process.env.JWT_ACCESS_EXPIRES || "15m";
 const REFRESH_EXPIRES = process.env.JWT_REFRESH_EXPIRES || "7d";
-const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || "secret";
-const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || "refresh_secret";
+const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || "emergent_flowspace_access_secret_" + Date.now();
+const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || "emergent_flowspace_refresh_secret_" + Date.now();
 
 function signAccess(userId: string) {
   return jwt.sign({ sub: userId }, ACCESS_SECRET, {
