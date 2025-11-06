@@ -2,7 +2,7 @@ import path from "path";
 import { createServer } from "./index";
 import express from "express";
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8001;
 
 async function startServer() {
   const { app, server } = await createServer({ connectDB: true });
