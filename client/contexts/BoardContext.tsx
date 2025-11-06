@@ -71,6 +71,9 @@ export function BoardProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
+    // Only load boards after auth is complete
+    if (authLoading) return;
+    
     refreshBoards();
 
     return () => {
@@ -79,7 +82,7 @@ export function BoardProvider({ children }: { children: ReactNode }) {
         socket.emit('leaveBoard', currentBoard._id);
       }
     };
-  }, []);
+  }, [authLoading]);
 
   return (
     <BoardContext.Provider
