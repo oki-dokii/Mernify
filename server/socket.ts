@@ -2,6 +2,7 @@ import { Server as IOServer } from "socket.io";
 import http from "http";
 import { Card } from "./models/Card";
 import { Note } from "./models/Note";
+import { Activity } from "./models/Activity";
 
 export function initSocket(server: http.Server) {
   const io = new IOServer(server, {
