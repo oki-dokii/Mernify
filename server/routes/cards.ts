@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  listCards,
   createCard,
   updateCard,
   deleteCard,
@@ -8,6 +9,7 @@ import { authMiddleware } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
+router.get("/:boardId/cards", authMiddleware, listCards);
 router.post("/:boardId/cards", authMiddleware, createCard);
 router.put("/:id", authMiddleware, updateCard);
 router.delete("/:id", authMiddleware, deleteCard);
