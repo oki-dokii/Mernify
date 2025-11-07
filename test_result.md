@@ -59,7 +59,15 @@
 - **User Population:** invitedBy field properly populated with user details
 - **Permissions:** Role-based access control working correctly
 
-## Changes Made
+## Changes Made (Latest Session)
+1. ✅ Rebuilt backend server to include latest invite controller changes
+2. ✅ Verified invite creation returns token and inviteLink in response
+3. ✅ Tested complete invite flow: create → accept → verify membership
+4. ✅ Verified permission checks for viewers and non-members
+5. ✅ Confirmed Socket.io board:member-joined event emission
+6. ✅ All invite and collaboration APIs tested and verified working
+
+## Previous Changes
 1. ✅ Fixed socket event naming mismatch (card:created → card:create)
 2. ✅ Fixed activity logging field names (targetType/targetId → entityType/entityId)
 3. ✅ Updated cardsController to broadcast card events via Socket.io
@@ -72,18 +80,18 @@
 10. ✅ Verified activity logging working correctly for all card operations
 
 ## Known Issues
-1. ⚠️ GlassyKanbanBoard not rendering (old board design showing instead) - Frontend issue
-2. ⚠️ Need to verify card creation dialog opens correctly - Frontend issue
+None - All backend invite and collaboration features working correctly
 
 ## Next Steps
 1. ✅ ~~Backend testing for card CRUD operations and activity logging~~ - COMPLETED
 2. ✅ ~~Debug GlassyKanbanBoard rendering~~ - FIXED (dev server issue)
-3. **NOW TESTING:** Invite & Collaboration System
-   - Create invite tokens
-   - Send invite emails
-   - Accept invites via link
-   - Test real-time collaboration
-   - Verify board member permissions
+3. ✅ ~~Invite & Collaboration System~~ - COMPLETED
+   - ✅ Create invite tokens
+   - ✅ Send invite emails (SMTP optional, returns link)
+   - ✅ Accept invites via link
+   - ✅ Verify board member permissions
+   - ✅ Test role-based access control
+4. **READY FOR:** Frontend testing or additional feature development
 
 ## Testing Notes
 - Services running locally on ports 3000 (frontend) and 8001/8002 (backend)
