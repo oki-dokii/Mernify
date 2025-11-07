@@ -36,14 +36,27 @@ class Colors:
     RESET = '\033[0m'
     BOLD = '\033[1m'
 
-class FlowSpaceBackendTester:
+class FlowSpaceInviteTester:
     def __init__(self):
         self.base_url = BACKEND_URL
-        self.token = None
-        self.user_id = None
+        # Owner user
+        self.owner_token = None
+        self.owner_id = None
+        self.owner_email = 'owner@flowspace.com'
+        # Invitee user
+        self.invitee_token = None
+        self.invitee_id = None
+        self.invitee_email = 'invitee@flowspace.com'
+        # Viewer user (for permission tests)
+        self.viewer_token = None
+        self.viewer_id = None
+        self.viewer_email = 'viewer@flowspace.com'
+        # Board and invite data
         self.board_id = None
         self.column_id = None
         self.card_id = None
+        self.invite_token = None
+        self.invite_link = None
         self.test_results = []
         
     def log_test(self, test_name: str, passed: bool, message: str = ""):
