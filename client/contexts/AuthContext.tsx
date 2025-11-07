@@ -65,110 +65,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  const autoLogin = async () => {
-    try {
-      // Try to login as existing demo user
-      await login('demo@flowspace.app', 'demo123');
-    } catch (err) {
-      console.error('Auto-login failed:', err);
-      setIsLoading(false);
-    }
-  };
-
-  const fetchMe = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/auth/me`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        credentials: 'include',
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data.user);
-      } else {
-        // Token expired, try to refresh
-        await refreshToken();
-      }
-    } catch (err) {
-      console.error('Failed to fetch user:', err);
-      setAccessToken(null);
-      localStorage.removeItem('accessToken');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const refreshToken = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/auth/refresh`, {
-        method: 'POST',
-        credentials: 'include',
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setAccessToken(data.access);
-        localStorage.setItem('accessToken', data.access);
-        await fetchMe();
-      } else {
-        throw new Error('Failed to refresh token');
-      }
-    } catch (err) {
-      setAccessToken(null);
-      localStorage.removeItem('accessToken');
-      setUser(null);
-      throw err;
-    }
-  };
-
   const login = async (email: string, password: string) => {
-    const response = await fetch(`${API_URL}/api/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ email, password }),
-    });
-    if (!response.ok) {
-      const data = await response.json();
-      throw new Error(data.message || 'Login failed');
-    }
-    const data = await response.json();
-    setAccessToken(data.access);
-    localStorage.setItem('accessToken', data.access);
-    setUser(data.user);
-    setIsLoading(false);
+    const fbUser = await firebaseSignIn(email, password);
+    // Firebase auth state listener will handle the rest
   };
 
   const register = async (name: string, email: string, password: string) => {
-    const response = await fetch(`${API_URL}/api/auth/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ name, email, password }),
-    });
-    if (!response.ok) {
-      const data = await response.json();
-      throw new Error(data.message || 'Registration failed');
-    }
-    const data = await response.json();
-    setAccessToken(data.access);
-    localStorage.setItem('accessToken', data.access);
-    setUser(data.user);
-    setIsLoading(false);
+    const fbUser = await firebaseSignUp(email, password, name);
+    // Firebase auth state listener will handle the rest
   };
 
   const logout = async () => {
-    try {
-      await fetch(`${API_URL}/api/auth/logout`, {
-        method: 'POST',
-        credentials: 'include',
-      });
-    } catch (err) {
-      console.error('Logout error:', err);
-    }
+    await firebaseSignOut();
+    setUser(null);
     setAccessToken(null);
     localStorage.removeItem('accessToken');
-    setUser(null);
   };
 
   return (
