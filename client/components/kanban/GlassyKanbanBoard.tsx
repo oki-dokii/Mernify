@@ -398,7 +398,7 @@ function GlassCard({ card, onEdit }: { card: CardType; onEdit: () => void }) {
       {...attributes}
       whileHover={{ scale: 1.02, y: -2 }}
       className={cn(
-        'group relative rounded-xl p-4 aspect-square',
+        'group relative rounded-xl p-3 min-h-[140px]',
         'bg-gradient-to-br from-white/15 to-white/8 backdrop-blur-md',
         'border-2 border-white/20 shadow-lg',
         'hover:shadow-2xl hover:border-white/30',
@@ -413,66 +413,56 @@ function GlassCard({ card, onEdit }: { card: CardType; onEdit: () => void }) {
       {/* Drag Handle */}
       <div {...listeners} className="absolute inset-0 cursor-grab active:cursor-grabbing" />
       
-      {/* 2x2 Grid Layout */}
-      <div className="relative z-10 h-full flex flex-col">
-        {/* Top Half: 2 components side by side */}
-        <div className="flex-1 grid grid-cols-2 gap-3 pb-3 border-b-2 border-white/20">
-          {/* Top Left: Title & Edit Button */}
-          <div className="flex flex-col justify-start">
-            <h4 className="text-sm font-bold text-white line-clamp-3 leading-tight">
-              {card.title}
-            </h4>
-          </div>
-          
-          {/* Top Right: Tags & Edit */}
-          <div className="flex flex-col items-end justify-between">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleEditClick}
-              className="opacity-0 group-hover:opacity-100 transition-opacity h-7 w-7 p-0 hover:bg-indigo-500/30 relative z-20"
-            >
-              <Edit className="h-3.5 w-3.5 text-indigo-200" />
-            </Button>
-            {card.tags && card.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1 justify-end">
-                {card.tags.slice(0, 1).map((tag, i) => (
-                  <Badge
-                    key={i}
-                    className="text-xs px-1.5 py-0 bg-indigo-500/30 text-indigo-200 border border-indigo-400/50 font-medium"
-                  >
-                    {tag}
-                  </Badge>
-                ))}
-                {card.tags.length > 1 && (
-                  <Badge className="text-xs px-1.5 py-0 bg-indigo-500/30 text-indigo-200 border border-indigo-400/50 font-medium">
-                    +{card.tags.length - 1}
-                  </Badge>
-                )}
-              </div>
-            )}
-          </div>
+      {/* Content Layout */}
+      <div className="relative z-10 space-y-2">
+        {/* Header: Title & Edit */}
+        <div className="flex items-start justify-between gap-2">
+          <h4 className="text-sm font-bold text-white line-clamp-2 leading-tight flex-1">
+            {card.title}
+          </h4>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleEditClick}
+            className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0 hover:bg-indigo-500/30 relative z-20 flex-shrink-0"
+          >
+            <Edit className="h-3 w-3 text-indigo-200" />
+          </Button>
         </div>
 
-        {/* Bottom Half: 2 components side by side */}
-        <div className="flex-1 grid grid-cols-2 gap-3 pt-3">
-          {/* Bottom Left: Description */}
-          <div className="flex items-center">
-            {card.description && (
-              <p className="text-xs text-white/80 line-clamp-3 leading-tight">{card.description}</p>
+        {/* Description */}
+        {card.description && (
+          <p className="text-xs text-white/70 line-clamp-2 leading-relaxed">{card.description}</p>
+        )}
+
+        {/* Tags */}
+        {card.tags && card.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {card.tags.slice(0, 2).map((tag, i) => (
+              <Badge
+                key={i}
+                className="text-xs px-1.5 py-0.5 bg-indigo-500/30 text-indigo-200 border border-indigo-400/50 font-medium"
+              >
+                {tag}
+              </Badge>
+            ))}
+            {card.tags.length > 2 && (
+              <Badge className="text-xs px-1.5 py-0.5 bg-indigo-500/30 text-indigo-200 border border-indigo-400/50 font-medium">
+                +{card.tags.length - 2}
+              </Badge>
             )}
           </div>
-          
-          {/* Bottom Right: User Avatar & Date */}
-          <div className="flex flex-col justify-end items-end gap-2">
-            {card.dueDate && (
-              <div className="flex items-center gap-1 text-xs text-white/70 font-medium">
-                <Calendar className="h-3.5 w-3.5" />
-                <span>{new Date(card.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
-              </div>
-            )}
-            <CardFooter card={card} />
-          </div>
+        )}
+
+        {/* Footer: Date & Avatar */}
+        <div className="flex items-center justify-between pt-2 border-t border-white/10">
+          <CardFooter card={card} />
+          {card.dueDate && (
+            <div className="flex items-center gap-1 text-xs text-white/60">
+              <Calendar className="h-3 w-3" />
+              <span>{new Date(card.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>
