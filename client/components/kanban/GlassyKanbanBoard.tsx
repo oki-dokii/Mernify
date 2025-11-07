@@ -364,13 +364,13 @@ function CardFooter({ card }: { card: CardType }) {
   
   return (
     <div className="flex items-center gap-1.5" title={userName}>
-      <Avatar className="h-6 w-6 ring-2 ring-white/20">
+      <Avatar className="h-6 w-6 ring-2 ring-white/30">
         <AvatarImage src={avatarUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${userName}`} />
-        <AvatarFallback className="text-xs bg-gradient-to-br from-indigo-500 to-violet-500">
+        <AvatarFallback className="text-xs font-semibold bg-gradient-to-br from-indigo-500 to-violet-500">
           {userName.substring(0, 2).toUpperCase()}
         </AvatarFallback>
       </Avatar>
-      <span className="text-xs text-white/50">{userName.split(' ')[0]}</span>
+      <span className="text-xs text-white/80 font-medium">{userName.split(' ')[0]}</span>
     </div>
   );
 }
