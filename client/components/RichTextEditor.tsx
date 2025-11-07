@@ -66,22 +66,24 @@ export default function RichTextEditor({
       <style jsx global>{`
         .rich-text-editor .ql-container {
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-          font-size: 14px;
-          height: calc(100% - 42px);
+          font-size: 15px;
+          line-height: 1.6;
+          height: calc(100% - 46px);
         }
         
         .rich-text-editor .ql-editor {
-          min-height: 200px;
-          padding: 16px;
+          min-height: 400px;
+          padding: 20px;
+          color: #1a1a1a;
         }
         
         .rich-text-editor .ql-toolbar {
           border-top-left-radius: 8px;
           border-top-right-radius: 8px;
-          background: rgba(255, 255, 255, 0.8);
+          background: #f9fafb;
           backdrop-filter: blur(10px);
-          border: 1px solid rgba(0, 0, 0, 0.1);
-          padding: 8px;
+          border: 1px solid rgba(0, 0, 0, 0.08);
+          padding: 10px 12px;
           display: flex;
           flex-wrap: wrap;
           gap: 4px;
@@ -90,7 +92,7 @@ export default function RichTextEditor({
         .rich-text-editor .ql-container {
           border-bottom-left-radius: 8px;
           border-bottom-right-radius: 8px;
-          border: 1px solid rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(0, 0, 0, 0.08);
           border-top: none;
           background: white;
         }
