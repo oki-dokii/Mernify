@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { auth, firebaseSignUp, firebaseSignIn, firebaseSignOut, onAuthStateChanged } from '@/lib/firebase';
+import type { User as FirebaseUser } from 'firebase/auth';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
