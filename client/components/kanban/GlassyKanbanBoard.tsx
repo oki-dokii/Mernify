@@ -466,8 +466,8 @@ function GlassCard({ card, onEdit }: { card: CardType; onEdit: () => void }) {
           {/* Bottom Right: User Avatar & Date */}
           <div className="flex flex-col justify-end items-end gap-2">
             {card.dueDate && (
-              <div className="flex items-center gap-1 text-xs text-white/50">
-                <Calendar className="h-3 w-3" />
+              <div className="flex items-center gap-1 text-xs text-white/70 font-medium">
+                <Calendar className="h-3.5 w-3.5" />
                 <span>{new Date(card.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
               </div>
             )}
