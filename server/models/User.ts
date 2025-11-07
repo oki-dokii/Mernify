@@ -17,6 +17,7 @@ const UserSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: false }, // Optional for Firebase users
     avatar: { type: String },
+    avatarUrl: { type: String }, // Firebase avatar URL
     firebaseUid: { type: String },
   },
   { timestamps: true }
