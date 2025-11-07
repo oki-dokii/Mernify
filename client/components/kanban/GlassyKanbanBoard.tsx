@@ -147,8 +147,8 @@ export default function GlassyKanbanBoard() {
     try {
       await deleteCardAPI(editingCard._id);
       setLocalCards((prev) => prev.filter(c => c._id !== editingCard._id));
-      const socket = getSocket();
-      socket.emit('card:delete', editingCard._id);
+      // Don't emit socket event - server will broadcast it
+      setDialogOpen(false);
     } catch (err) {
       console.error('Failed to delete card:', err);
     }
