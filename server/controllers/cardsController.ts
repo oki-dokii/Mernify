@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { Card } from "../models/Card";
+import { Activity } from "../models/Activity";
 import mongoose from "mongoose";
 
 export const listCards: RequestHandler = async (req, res, next) => {
