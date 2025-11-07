@@ -100,6 +100,7 @@ class FlowSpaceInviteTester:
                     'name': 'Board Owner',
                     'email': self.owner_email,
                     'password': 'owner123',
+                    'avatarUrl': 'https://api.dicebear.com/7.x/avataaars/svg?seed=owner',
                     'createdAt': datetime.utcnow(),
                     'updatedAt': datetime.utcnow()
                 }
@@ -108,6 +109,12 @@ class FlowSpaceInviteTester:
                 print(f"  Created owner user: {self.owner_id}")
             else:
                 self.owner_id = str(owner_user['_id'])
+                # Update with avatarUrl if missing
+                if 'avatarUrl' not in owner_user:
+                    db.users.update_one(
+                        {'_id': owner_user['_id']},
+                        {'$set': {'avatarUrl': 'https://api.dicebear.com/7.x/avataaars/svg?seed=owner'}}
+                    )
                 print(f"  Using existing owner user: {self.owner_id}")
             
             self.owner_token = self.generate_jwt_token(self.owner_id)
@@ -119,6 +126,7 @@ class FlowSpaceInviteTester:
                     'name': 'Invited User',
                     'email': self.invitee_email,
                     'password': 'invitee123',
+                    'avatarUrl': 'https://api.dicebear.com/7.x/avataaars/svg?seed=invitee',
                     'createdAt': datetime.utcnow(),
                     'updatedAt': datetime.utcnow()
                 }
@@ -127,6 +135,12 @@ class FlowSpaceInviteTester:
                 print(f"  Created invitee user: {self.invitee_id}")
             else:
                 self.invitee_id = str(invitee_user['_id'])
+                # Update with avatarUrl if missing
+                if 'avatarUrl' not in invitee_user:
+                    db.users.update_one(
+                        {'_id': invitee_user['_id']},
+                        {'$set': {'avatarUrl': 'https://api.dicebear.com/7.x/avataaars/svg?seed=invitee'}}
+                    )
                 print(f"  Using existing invitee user: {self.invitee_id}")
             
             self.invitee_token = self.generate_jwt_token(self.invitee_id)
@@ -138,6 +152,7 @@ class FlowSpaceInviteTester:
                     'name': 'Viewer User',
                     'email': self.viewer_email,
                     'password': 'viewer123',
+                    'avatarUrl': 'https://api.dicebear.com/7.x/avataaars/svg?seed=viewer',
                     'createdAt': datetime.utcnow(),
                     'updatedAt': datetime.utcnow()
                 }
@@ -146,6 +161,12 @@ class FlowSpaceInviteTester:
                 print(f"  Created viewer user: {self.viewer_id}")
             else:
                 self.viewer_id = str(viewer_user['_id'])
+                # Update with avatarUrl if missing
+                if 'avatarUrl' not in viewer_user:
+                    db.users.update_one(
+                        {'_id': viewer_user['_id']},
+                        {'$set': {'avatarUrl': 'https://api.dicebear.com/7.x/avataaars/svg?seed=viewer'}}
+                    )
                 print(f"  Using existing viewer user: {self.viewer_id}")
             
             self.viewer_token = self.generate_jwt_token(self.viewer_id)
