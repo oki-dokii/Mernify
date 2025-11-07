@@ -207,7 +207,7 @@ export default function GlassyKanbanBoard() {
     socket.emit('card:move', { cardId, columnId: newColumnId });
   };
 
-  const allCardIds = useMemo(() => localCards.map(c => c._id), [localCards]);
+  const allCardIds = useMemo(() => cards.map(c => c._id), [cards]);
 
   return (
     <>
