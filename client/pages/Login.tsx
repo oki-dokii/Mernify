@@ -87,6 +87,9 @@ export default function Login() {
         description: "Welcome to FlowSpace!",
       });
 
+      // Wait a bit for AuthContext to complete JWT exchange
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
       navigate("/board");
     } catch (error: any) {
       console.error("Signup error:", error);
