@@ -2,7 +2,7 @@ import express from "express";
 import {
   register,
   login,
-  getMe,
+  me,
   logout,
   refresh,
 } from "../controllers/authController";
@@ -14,7 +14,7 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.post("/firebase-login", firebaseLogin);
-router.get("/me", authMiddleware, getMe);
+router.get("/me", authMiddleware, me);
 router.post("/refresh", refresh);
 router.post("/logout", logout);
 
