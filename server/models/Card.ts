@@ -13,6 +13,8 @@ export interface ICard extends Document {
   title: string;
   description?: string;
   assigneeId?: Types.ObjectId;
+  createdBy?: Types.ObjectId;
+  updatedBy?: Types.ObjectId;
   dueDate?: Date;
   tags: string[];
   order: number;
