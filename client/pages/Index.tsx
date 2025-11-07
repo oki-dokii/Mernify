@@ -78,14 +78,14 @@ export default function Index() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.8 }}
             >
-              <Link to="/board">
+              <Link to="/login">
                 <motion.button
                   className="group inline-flex items-center gap-2 rounded-full px-8 py-4 bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-lg"
                   whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(99, 102, 241, 0.4)" }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
-                  Get Started
+                  Sign In / Get Started
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </motion.button>
               </Link>
