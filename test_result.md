@@ -50,6 +50,36 @@
 - ✅ Non-members cannot see boards in their board list
 - ✅ Permission checks working correctly
 
+#### 7. Card Creation with User Tracking (POST /api/cards/:boardId/cards)
+- ✅ Cards created with createdBy and updatedBy fields
+- ✅ User data populated with name, email, and avatarUrl
+- ✅ Avatar URLs included in card responses
+- ✅ User tracking fields persisted to database
+
+#### 8. Card Update with User Tracking (PUT /api/cards/:id)
+- ✅ Card updates modify updatedBy field
+- ✅ updatedBy reflects the user who made the update
+- ✅ Updated user data includes avatar information
+- ✅ Multiple users can collaborate with visible attribution
+
+#### 9. Activity Feed with Avatars (GET /api/activity)
+- ✅ Activity feed retrieved successfully
+- ✅ User data populated in activities (userId field)
+- ✅ Avatar URLs included in activity user data
+- ✅ All card operations logged with user information
+
+#### 10. Invite with Board Selection
+- ✅ Invites can be created for specific boards
+- ✅ Board ID correctly stored in invite
+- ✅ Multiple boards can have separate invites
+- ✅ Board selection working correctly
+
+#### 11. Multiple Users Collaboration
+- ✅ Second user can create cards on shared board
+- ✅ First user can see second user's cards with avatars
+- ✅ Activity feed shows actions from multiple users
+- ✅ Real-time collaboration tracking working correctly
+
 ### Technical Details
 - **Backend URL:** http://localhost:8001
 - **Authentication:** JWT tokens working correctly
