@@ -3,15 +3,21 @@ import { User } from '../models/User';
 import jwt from 'jsonwebtoken';
 import admin from 'firebase-admin';
 
-// Initialize Firebase Admin (only once)
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert({
-      projectId: process.env.FIREBASE_PROJECT_ID || 'smart-clinic-d59c5',
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-    }),
-  });
+// Initialize Firebase Admin (only if credentials are provided)
+let firebaseInitialized = false;
+try {
+  if (!admin.apps.length && process.env.FIREBASE_PRIVATE_KEY) {
+    admin.initializeApp({
+      credential: admin.credential.cert({
+        projectId: process.env.FIREBASE_PROJECT_ID || 'smart-clinic-d59c5',
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+      }),
+    });
+    firebaseInitialized = true;
+  }
+} catch (err) {
+  console.log('Firebase Admin not initialized - using client-side Firebase only');
 }
 
 export const firebaseLogin: RequestHandler = async (req, res, next) => {
