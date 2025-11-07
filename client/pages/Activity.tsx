@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CheckCircle2, MessageSquare, UserPlus, Clock, Loader2 } from 'lucide-react';
 import { listActivities } from '@/lib/api-teams';
 import { getSocket } from '@/lib/socket';
