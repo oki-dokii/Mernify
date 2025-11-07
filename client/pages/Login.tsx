@@ -109,7 +109,7 @@ export default function Login() {
       >
         <div className="flex justify-center mb-8">
           <Link to="/">
-            <Logo size="lg" />
+            <Logo size="large" />
           </Link>
         </div>
 
