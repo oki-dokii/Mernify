@@ -15,7 +15,15 @@ import { motion } from "framer-motion";
 export default function Login() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      navigate("/board");
+    }
+  }, [authLoading, isAuthenticated, navigate]);
 
   // Login state
   const [loginEmail, setLoginEmail] = useState("");
