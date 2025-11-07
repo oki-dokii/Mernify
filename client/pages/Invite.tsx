@@ -96,21 +96,56 @@ export default function Invite() {
           </p>
         </div>
 
+        {!currentBoard && (
+          <div className="mb-6 p-4 rounded-lg bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800 flex items-start gap-3">
+            <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 mt-0.5" />
+            <div>
+              <p className="text-sm font-medium text-yellow-900 dark:text-yellow-100">No board selected</p>
+              <p className="text-sm text-yellow-700 dark:text-yellow-300">Go to a board first to send invites</p>
+            </div>
+          </div>
+        )}
+
+        {currentBoard && (
+          <div className="mb-6 p-4 rounded-lg bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-800">
+            <p className="text-sm text-indigo-900 dark:text-indigo-100">
+              <strong>Inviting to:</strong> {currentBoard.title}
+            </p>
+          </div>
+        )}
+
         <form onSubmit={handleSend} className="space-y-6">
           <div className="relative rounded-xl p-[1.5px] bg-gradient-to-r from-indigo-500 to-violet-600">
-            <div className="rounded-lg bg-white/90 dark:bg-white/5 p-6">
-              <Label htmlFor="email" className="text-base font-medium">
-                Email address
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="teammate@company.com"
-                className="mt-3 h-12"
-                required
-              />
+            <div className="rounded-lg bg-white/90 dark:bg-white/5 p-6 space-y-4">
+              <div>
+                <Label htmlFor="email" className="text-base font-medium">
+                  Email address
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="teammate@company.com"
+                  className="mt-3 h-12"
+                  required
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="role" className="text-base font-medium">
+                  Role
+                </Label>
+                <Select value={role} onValueChange={(val) => setRole(val as 'editor' | 'viewer')}>
+                  <SelectTrigger className="mt-3 h-12">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="editor">Editor - Can create, edit, and delete cards</SelectItem>
+                    <SelectItem value="viewer">Viewer - Can only view cards</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
 
