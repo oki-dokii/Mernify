@@ -312,7 +312,7 @@ class FlowSpaceBackendTester:
         print(f"\n{Colors.BOLD}Test 4: Activity Logging{Colors.RESET}")
         
         # Wait a bit for activities to be logged
-        time.sleep(1)
+        time.sleep(2)
         
         url = f"{self.base_url}/api/activity"
         headers = {'Authorization': f'Bearer {self.token}'}
@@ -324,6 +324,12 @@ class FlowSpaceBackendTester:
                 data = response.json()
                 if 'activities' in data:
                     activities = data['activities']
+                    
+                    print(f"  Total activities retrieved: {len(activities)}")
+                    
+                    # Debug: Print recent card activities
+                    card_activities = [a for a in activities if a.get('entityType') == 'card']
+                    print(f"  Card activities found: {len(card_activities)}")
                     
                     # Check for card creation activity
                     create_activity = None
