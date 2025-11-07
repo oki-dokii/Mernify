@@ -1,18 +1,16 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { CheckCircle2, Loader2, Save, Type, Maximize2, Download } from "lucide-react";
-import { useNavigate } from 'react-router-dom';
+import { CheckCircle2, Loader2, Save, Type, Maximize2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useBoard } from "@/contexts/BoardContext";
 import { getSocket } from "@/lib/socket";
 import { getNote, updateNote as updateNoteAPI } from "@/lib/api";
-import { useToast } from "@/hooks/use-toast";
 
 export function NotesPanel() {
   const { currentBoard } = useBoard();
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [value, setValue] = useState<string>("");
   const [syncing, setSyncing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -23,8 +21,10 @@ export function NotesPanel() {
   useEffect(() => {
     if (!currentBoard) return;
 
+    // Load note
     loadNote();
 
+    // Setup socket
     const socket = getSocket();
     socketRef.current = socket;
 
@@ -66,6 +66,7 @@ export function NotesPanel() {
       if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
       
       timeoutRef.current = window.setTimeout(() => {
+        // Emit via socket for real-time sync
         const socket = socketRef.current;
         if (socket) {
           socket.emit("note:update", {
@@ -73,7 +74,7 @@ export function NotesPanel() {
             content: value,
           });
         }
-      }, 1000);
+      }, 1000); // Debounce 1 second
     }
     
     return () => {
@@ -81,24 +82,9 @@ export function NotesPanel() {
     };
   }, [value, editing, currentBoard]);
 
-  const handleDownload = () => {
-    const blob = new Blob([value], { type: 'text/markdown' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${currentBoard?.title || 'notes'}-${Date.now()}.md`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    toast({
-      title: 'Notes downloaded!',
-      description: 'Your notes have been saved as a Markdown file.',
-    });
-  };
+  const preview = useMemo(() => markdownToHtml(value), [value]);
 
-  const members = React.useMemo(() => {
+  const members = useMemo(() => {
     if (!currentBoard?.members) return [];
     return currentBoard.members.slice(0, 3).map((m, i) => ({
       id: m.userId._id || m.userId,
@@ -106,8 +92,6 @@ export function NotesPanel() {
       avatar: `https://i.pravatar.cc/96?img=${20 + i}`,
     }));
   }, [currentBoard]);
-
-  const preview = React.useMemo(() => markdownToHtml(value), [value]);
 
   if (!currentBoard) {
     return (
@@ -149,44 +133,37 @@ export function NotesPanel() {
               ))}
             </div>
           )}
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={handleDownload}
-            className="rounded-full"
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Download
-          </Button>
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => navigate(`/notes-editor?boardId=${currentBoard._id}`)}
-            className="rounded-full"
-          >
-            <Maximize2 className="mr-2 h-4 w-4" />
-            Full Editor
-          </Button>
-          <Button
-            size="sm"
-            variant="secondary"
-            className={cn(
-              "rounded-full bg-white/80 dark:bg-white/10 border border-white/40 dark:border-white/10",
-              syncing ? "animate-pulse" : ""
-            )}
-          >
-            {syncing ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Syncing
-              </>
-            ) : (
-              <>
-                <Save className="mr-2 h-4 w-4" />
-                Synced
-              </>
-            )}
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => navigate(`/notes-editor?boardId=${currentBoard._id}`)}
+              className="rounded-full"
+            >
+              <Maximize2 className="mr-2 h-4 w-4" />
+              Full Editor
+            </Button>
+            <Button
+              size="sm"
+              variant="secondary"
+              className={cn(
+                "rounded-full bg-white/80 dark:bg-white/10 border border-white/40 dark:border-white/10",
+                syncing ? "animate-pulse" : ""
+              )}
+            >
+              {syncing ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Syncing
+                </>
+              ) : (
+                <>
+                  <Save className="mr-2 h-4 w-4" />
+                  Synced
+                </>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -222,6 +199,7 @@ function markdownToHtml(src: string) {
   s = s.replace(/\*\*(.*?)\*\*/gim, "<strong>$1</strong>");
   s = s.replace(/\*(.*?)\*/gim, "<em>$1</em>");
   s = s.replace(/\n\n/g, "<br/>");
+  // Wrap standalone <li> with <ul>
   s = s.replace(/(<li>.*?<\/li>)/gs, "<ul>$1</ul>");
   return s.trim();
 }
