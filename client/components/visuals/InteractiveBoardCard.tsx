@@ -76,7 +76,7 @@ export default function InteractiveBoardCard({
       </div>
 
       <div className="absolute -right-3 -bottom-3 text-xs text-muted-foreground">
-        {board.columns || 4} columns
+        {board.columns?.length || 4} columns
       </div>
     </motion.div>
   );
