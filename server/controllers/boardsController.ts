@@ -23,6 +23,17 @@ export const createBoard: RequestHandler = async (req, res, next) => {
     });
     // create an empty note for the board
     await Note.create({ boardId: board._id, content: "" });
+
+    // Create activity
+    const { Activity } = await import('../models/Activity');
+    await Activity.create({
+      userId: ownerId,
+      action: `created board "${title}"`,
+      entityType: 'board',
+      entityId: board._id,
+      boardId: board._id,
+    });
+
     res.status(201).json({ board });
   } catch (err) {
     next(err);
