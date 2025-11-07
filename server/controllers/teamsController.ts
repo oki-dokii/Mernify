@@ -16,6 +16,15 @@ export const createTeam: RequestHandler = async (req, res, next) => {
       members: [{ userId: ownerId, role: 'admin', joinedAt: new Date() }],
     });
 
+    // Create activity
+    const { Activity } = await import('../models/Activity');
+    await Activity.create({
+      userId: ownerId,
+      action: `created team \"${name}\"`,
+      entityType: 'team',
+      entityId: team._id,
+    });
+
     res.status(201).json({ team });
   } catch (err) {
     next(err);
