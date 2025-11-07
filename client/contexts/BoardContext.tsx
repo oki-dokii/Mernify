@@ -21,6 +21,7 @@ export function BoardProvider({ children }: { children: ReactNode }) {
   const { isLoading: authLoading } = useAuth();
   const [currentBoard, setCurrentBoard] = useState<Board | null>(null);
   const [boards, setBoards] = useState<Board[]>([]);
+  const [cards, setCards] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
