@@ -63,6 +63,13 @@ export default function Board() {
     }
   };
 
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      navigate('/login');
+    }
+  }, [authLoading, isAuthenticated, navigate]);
+
   // Show loading state while checking authentication
   if (authLoading || boardLoading) {
     return (
@@ -75,9 +82,8 @@ export default function Board() {
     );
   }
 
-  // Redirect to login if not authenticated
+  // Don't render if not authenticated
   if (!isAuthenticated) {
-    navigate('/login');
     return null;
   }
 
