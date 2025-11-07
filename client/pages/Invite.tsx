@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Loader2, Mail, CheckCircle2, Copy, Link as LinkIcon, AlertCircle, LogIn } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useBoard } from '@/contexts/BoardContext';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth, getAccessToken } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function Invite() {
