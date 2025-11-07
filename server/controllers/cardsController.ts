@@ -124,6 +124,12 @@ export const deleteCard: RequestHandler = async (req, res, next) => {
     const card = await Card.findById(id);
     await Card.findByIdAndDelete(id);
 
+    // Broadcast card deletion to all clients
+    const io = (req as any).app.get('io');
+    if (io && card) {
+      io.emit('card:delete', { id: card._id });
+    }
+
     // Log activity
     if (card) {
       try {
@@ -140,7 +146,6 @@ export const deleteCard: RequestHandler = async (req, res, next) => {
         const populated = await Activity.findById(activity._id).populate('userId', 'name email');
         
         // Emit real-time activity update
-        const io = (req as any).app.get('io');
         if (io) {
           io.emit('activity:new', populated);
         }
