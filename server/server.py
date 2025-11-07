@@ -23,8 +23,8 @@ def start_node_server():
     global node_process
     node_process = subprocess.Popen(
         ['node', 'dist/server/node-build.mjs'],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        stdout=sys.stdout,
+        stderr=sys.stderr,
         cwd='/app'
     )
     print(f"Started Node.js server with PID: {node_process.pid}")
