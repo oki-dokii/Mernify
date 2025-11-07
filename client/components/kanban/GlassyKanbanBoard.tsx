@@ -25,6 +25,18 @@ interface CardType {
   tags?: string[];
   dueDate?: string;
   order: number;
+  createdBy?: {
+    _id: string;
+    name: string;
+    email: string;
+    avatarUrl?: string;
+  };
+  updatedBy?: {
+    _id: string;
+    name: string;
+    email: string;
+    avatarUrl?: string;
+  };
 }
 
 const getColumnConfig = (title: string) => {
