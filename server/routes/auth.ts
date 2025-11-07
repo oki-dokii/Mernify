@@ -6,7 +6,7 @@ import {
   logout,
   refresh,
 } from "../controllers/authController";
-import { firebaseLogin } from "../controllers/authController-firebase";
+import { firebaseLogin } from "../controllers/firebaseAuthController";
 import { authMiddleware } from "../middleware/authMiddleware";
 
 const router = express.Router();
