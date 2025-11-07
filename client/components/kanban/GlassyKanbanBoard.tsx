@@ -399,16 +399,16 @@ function GlassCard({ card, onEdit }: { card: CardType; onEdit: () => void }) {
       whileHover={{ scale: 1.02, y: -2 }}
       className={cn(
         'group relative rounded-xl p-4 aspect-square',
-        'bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md',
-        'border border-white/10 shadow-lg',
-        'hover:shadow-2xl hover:border-white/20',
+        'bg-gradient-to-br from-white/15 to-white/8 backdrop-blur-md',
+        'border-2 border-white/20 shadow-lg',
+        'hover:shadow-2xl hover:border-white/30',
         'transition-all duration-300',
         'w-full',
         isDragging && 'opacity-50 scale-105 rotate-2'
       )}
     >
       {/* Hover glow effect */}
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-indigo-500/0 to-violet-500/0 group-hover:from-indigo-500/10 group-hover:to-violet-500/10 transition-all duration-300" />
+      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-indigo-500/0 to-violet-500/0 group-hover:from-indigo-500/15 group-hover:to-violet-500/15 transition-all duration-300" />
       
       {/* Drag Handle */}
       <div {...listeners} className="absolute inset-0 cursor-grab active:cursor-grabbing" />
@@ -416,10 +416,10 @@ function GlassCard({ card, onEdit }: { card: CardType; onEdit: () => void }) {
       {/* 2x2 Grid Layout */}
       <div className="relative z-10 h-full flex flex-col">
         {/* Top Half: 2 components side by side */}
-        <div className="flex-1 grid grid-cols-2 gap-3 pb-3 border-b border-white/10">
+        <div className="flex-1 grid grid-cols-2 gap-3 pb-3 border-b-2 border-white/20">
           {/* Top Left: Title & Edit Button */}
           <div className="flex flex-col justify-start">
-            <h4 className="text-sm font-bold text-white/90 line-clamp-3 leading-tight">
+            <h4 className="text-sm font-bold text-white line-clamp-3 leading-tight">
               {card.title}
             </h4>
           </div>
@@ -430,22 +430,22 @@ function GlassCard({ card, onEdit }: { card: CardType; onEdit: () => void }) {
               variant="ghost"
               size="sm"
               onClick={handleEditClick}
-              className="opacity-0 group-hover:opacity-100 transition-opacity h-7 w-7 p-0 hover:bg-indigo-500/20 relative z-20"
+              className="opacity-0 group-hover:opacity-100 transition-opacity h-7 w-7 p-0 hover:bg-indigo-500/30 relative z-20"
             >
-              <Edit className="h-3.5 w-3.5 text-indigo-300" />
+              <Edit className="h-3.5 w-3.5 text-indigo-200" />
             </Button>
             {card.tags && card.tags.length > 0 && (
               <div className="flex flex-wrap gap-1 justify-end">
                 {card.tags.slice(0, 1).map((tag, i) => (
                   <Badge
                     key={i}
-                    className="text-xs px-1.5 py-0 bg-indigo-500/20 text-indigo-300 border border-indigo-400/30"
+                    className="text-xs px-1.5 py-0 bg-indigo-500/30 text-indigo-200 border border-indigo-400/50 font-medium"
                   >
                     {tag}
                   </Badge>
                 ))}
                 {card.tags.length > 1 && (
-                  <Badge className="text-xs px-1.5 py-0 bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <Badge className="text-xs px-1.5 py-0 bg-indigo-500/30 text-indigo-200 border border-indigo-400/50 font-medium">
                     +{card.tags.length - 1}
                   </Badge>
                 )}
@@ -459,7 +459,7 @@ function GlassCard({ card, onEdit }: { card: CardType; onEdit: () => void }) {
           {/* Bottom Left: Description */}
           <div className="flex items-center">
             {card.description && (
-              <p className="text-xs text-white/60 line-clamp-3 leading-tight">{card.description}</p>
+              <p className="text-xs text-white/80 line-clamp-3 leading-tight">{card.description}</p>
             )}
           </div>
           
