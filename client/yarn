@@ -1,0 +1,13 @@
+#!/bin/bash
+# Wrapper script to handle yarn commands from supervisor
+# This bypasses the packageManager field issue
+
+cd /app
+
+if [ "$1" = "start" ]; then
+    export HOST="0.0.0.0"
+    export PORT="3000"
+    exec pnpm dev
+else
+    exec /usr/bin/yarn "$@"
+fi
