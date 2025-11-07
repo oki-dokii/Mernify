@@ -32,6 +32,12 @@ export const createCard: RequestHandler = async (req, res, next) => {
       history: [],
     });
 
+    // Broadcast card creation to all clients
+    const io = (req as any).app.get('io');
+    if (io) {
+      io.emit('card:create', card);
+    }
+
     // Log activity
     try {
       const Activity = (await import('../models/Activity')).Activity;
@@ -47,7 +53,6 @@ export const createCard: RequestHandler = async (req, res, next) => {
       const populated = await Activity.findById(activity._id).populate('userId', 'name email');
       
       // Emit real-time activity update
-      const io = (req as any).app.get('io');
       if (io) {
         io.emit('activity:new', populated);
       }
