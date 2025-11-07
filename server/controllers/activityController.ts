@@ -11,7 +11,7 @@ export const listActivities: RequestHandler = async (req, res, next) => {
     const activities = await Activity.find()
       .sort({ createdAt: -1 })
       .limit(limit)
-      .populate('userId', 'name email')
+      .populate('userId', 'name email avatarUrl')
       .lean();
 
     res.json({ activities });
