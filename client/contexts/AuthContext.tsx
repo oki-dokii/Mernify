@@ -38,21 +38,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
       setFirebaseUser(fbUser);
       if (fbUser) {
-        // Get Firebase ID token
         try {
-          const token = await fbUser.getIdToken();
-          setAccessToken(token);
-          localStorage.setItem('accessToken', token);
-          
-          // Set user from Firebase
-          setUser({
-            id: fbUser.uid,
-            name: fbUser.displayName || fbUser.email?.split('@')[0] || 'User',
-            email: fbUser.email || '',
-            avatarUrl: fbUser.photoURL || undefined,
+          // Exchange Firebase token for backend JWT token
+          const response = await fetch(`${API_URL}/api/auth/firebase-login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+              uid: fbUser.uid,
+              email: fbUser.email,
+              name: fbUser.displayName || fbUser.email?.split('@')[0],
+              photoURL: fbUser.photoURL,
+            }),
           });
+
+          if (response.ok) {
+            const data = await response.json();
+            setAccessToken(data.access);
+            localStorage.setItem('accessToken', data.access);
+            setUser(data.user);
+          } else {
+            console.error('Failed to exchange Firebase token');
+            setUser(null);
+            setAccessToken(null);
+            localStorage.removeItem('accessToken');
+          }
         } catch (error) {
-          console.error('Error getting Firebase token:', error);
+          console.error('Error exchanging Firebase token:', error);
+          setUser(null);
+          setAccessToken(null);
+          localStorage.removeItem('accessToken');
         }
       } else {
         setUser(null);
