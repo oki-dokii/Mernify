@@ -98,28 +98,37 @@ export default function RichTextEditor({
         }
         
         .rich-text-editor .ql-toolbar button {
-          width: 28px !important;
-          height: 28px !important;
-          padding: 4px !important;
-          border-radius: 4px;
+          width: 30px !important;
+          height: 30px !important;
+          padding: 5px !important;
+          border-radius: 6px;
         }
         
         .rich-text-editor .ql-toolbar button:hover {
-          background: rgba(0, 0, 0, 0.05);
+          background: rgba(99, 102, 241, 0.08);
         }
         
         .rich-text-editor .ql-toolbar button.ql-active {
-          background: rgba(99, 102, 241, 0.1);
+          background: rgba(99, 102, 241, 0.15);
           color: rgb(99, 102, 241);
         }
         
         .rich-text-editor .ql-picker {
-          font-size: 13px;
+          font-size: 14px;
         }
         
         .rich-text-editor .ql-editor.ql-blank::before {
-          color: rgba(0, 0, 0, 0.4);
+          color: rgba(0, 0, 0, 0.35);
           font-style: normal;
+          font-size: 15px;
+        }
+        
+        .rich-text-editor .ql-stroke {
+          stroke: #4b5563;
+        }
+        
+        .rich-text-editor .ql-fill {
+          fill: #4b5563;
         }
         
         /* Dark mode support */
