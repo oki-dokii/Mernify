@@ -96,6 +96,39 @@ export default function Invite() {
     });
   }
 
+  // Show loading while checking auth
+  if (authLoading) {
+    return (
+      <div className="container mx-auto px-6 py-8 flex items-center justify-center min-h-screen">
+        <Loader2 className="h-12 w-12 animate-spin text-indigo-500" />
+      </div>
+    );
+  }
+
+  // Show sign-in prompt if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="container mx-auto px-6 py-8">
+        <div className="max-w-xl mx-auto text-center">
+          <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-r from-indigo-500 to-violet-600 text-white mb-4">
+            <LogIn className="h-8 w-8" />
+          </div>
+          <h2 className="text-3xl font-bold mb-4">Sign In Required</h2>
+          <p className="text-muted-foreground mb-8">
+            You need to sign in to invite team members to your boards.
+          </p>
+          <Button
+            onClick={() => navigate('/login')}
+            className="bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700"
+          >
+            <LogIn className="mr-2 h-5 w-5" />
+            Sign In
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-6 py-8">
       <div className="max-w-xl mx-auto">
@@ -115,6 +148,13 @@ export default function Invite() {
             <div>
               <p className="text-sm font-medium text-yellow-900 dark:text-yellow-100">No boards available</p>
               <p className="text-sm text-yellow-700 dark:text-yellow-300">Create a board first to send invites</p>
+              <Button
+                onClick={() => navigate('/')}
+                variant="link"
+                className="text-yellow-700 dark:text-yellow-300 p-0 h-auto mt-2"
+              >
+                Go to Home →
+              </Button>
             </div>
           </div>
         )}
