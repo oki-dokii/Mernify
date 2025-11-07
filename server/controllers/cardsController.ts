@@ -88,9 +88,30 @@ export const updateCard: RequestHandler = async (req, res, next) => {
 export const deleteCard: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const userId = (req as any).userId;
+    
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(400).json({ message: "Invalid id" });
+    
+    const card = await Card.findById(id);
     await Card.findByIdAndDelete(id);
+
+    // Log activity
+    if (card) {
+      try {
+        const Activity = (await import('../models/Activity')).default;
+        await Activity.create({
+          userId,
+          boardId: card.boardId,
+          action: `deleted card "${card.title}"`,
+          targetType: 'card',
+          targetId: card._id,
+        });
+      } catch (activityErr) {
+        console.error('Failed to log activity:', activityErr);
+      }
+    }
+
     res.json({ ok: true });
   } catch (err) {
     next(err);
