@@ -96,19 +96,17 @@ export default function Board() {
       <FloatingBackground />
 
       <div className="container mx-auto px-4 sm:px-6 py-6 pb-32">
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          {/* Kanban Board - Takes 2/3 width on large screens */}
-          <div className="xl:col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Kanban Board - Takes half width on large screens */}
+          <div className="lg:col-span-1">
             <div className="rounded-2xl p-4 sm:p-6 bg-white/60 dark:bg-white/5 backdrop-blur-lg border border-white/20 shadow-xl">
               <KanbanBoard />
             </div>
           </div>
 
-          {/* Notes Panel - Takes 1/3 width on large screens */}
-          <div className="xl:col-span-1">
-            <div className="sticky top-6">
-              <NotesPanel />
-            </div>
+          {/* Notes Panel - Takes half width on large screens */}
+          <div className="lg:col-span-1">
+            <NotesPanel />
           </div>
         </div>
       </div>
