@@ -261,13 +261,13 @@ function Column({
   return (
     <div
       ref={setNodeRef}
-      className="rounded-2xl p-3 bg-white/60 dark:bg-white/5 backdrop-blur border border-white/30 dark:border-white/10 shadow-sm min-h-[400px]"
+      className="rounded-xl p-3 bg-white/70 dark:bg-white/5 backdrop-blur-lg border border-white/30 dark:border-white/10 shadow-lg min-h-[500px] max-h-[calc(100vh-250px)] flex flex-col"
     >
-      <div className="flex items-center justify-between px-1 pb-3">
+      <div className="flex items-center justify-between px-1 pb-3 mb-2">
         <h3 className="font-semibold text-sm tracking-wide text-foreground/90">
           {title}
         </h3>
-        <Badge variant="secondary" className="text-xs">
+        <Badge variant="secondary" className="text-xs px-2 py-0.5">
           {items.length}
         </Badge>
       </div>
@@ -276,7 +276,7 @@ function Column({
         items={items.map((c) => c._id)}
         strategy={verticalListSortingStrategy}
       >
-        <div className="space-y-3">
+        <div className="space-y-2.5 overflow-y-auto flex-1 pr-1 custom-scrollbar">
           {items.map((card) => (
             <KanbanCard key={card._id} card={card} />
           ))}
@@ -287,7 +287,7 @@ function Column({
         onClick={() => onCreateCard(id)}
         variant="ghost"
         size="sm"
-        className="w-full mt-3 text-muted-foreground hover:text-foreground hover:bg-white/50 dark:hover:bg-white/10"
+        className="w-full mt-3 text-muted-foreground hover:text-foreground hover:bg-white/60 dark:hover:bg-white/10 transition-all flex-shrink-0"
         data-testid="add-card-button"
       >
         <Plus className="h-4 w-4 mr-2" />
