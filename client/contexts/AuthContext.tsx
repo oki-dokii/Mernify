@@ -27,19 +27,42 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(() => {
     return localStorage.getItem('accessToken');
   });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Try to fetch user on mount if we have a token
-    if (accessToken) {
-      fetchMe();
-    } else {
-      // Try to auto-login with demo user
-      autoLogin();
-    }
+    // Listen to Firebase auth state
+    const unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
+      setFirebaseUser(fbUser);
+      if (fbUser) {
+        // Get Firebase ID token
+        try {
+          const token = await fbUser.getIdToken();
+          setAccessToken(token);
+          localStorage.setItem('accessToken', token);
+          
+          // Set user from Firebase
+          setUser({
+            id: fbUser.uid,
+            name: fbUser.displayName || fbUser.email?.split('@')[0] || 'User',
+            email: fbUser.email || '',
+            avatarUrl: fbUser.photoURL || undefined,
+          });
+        } catch (error) {
+          console.error('Error getting Firebase token:', error);
+        }
+      } else {
+        setUser(null);
+        setAccessToken(null);
+        localStorage.removeItem('accessToken');
+      }
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const autoLogin = async () => {
