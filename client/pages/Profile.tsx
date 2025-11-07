@@ -49,31 +49,35 @@ export default function Profile() {
     try {
       setUploading(true);
       
-      // Create FormData for file upload
-      const formData = new FormData();
-      formData.append('avatar', file);
+      // Upload to Firebase Storage
+      const { uploadAvatarToFirebase } = await import('@/lib/firebase');
+      const firebaseUrl = await uploadAvatarToFirebase(file, user?.id || 'user');
       
-      // Upload to server
+      // Update backend with Firebase URL
       const response = await fetch('/api/user/avatar', {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${accessToken}`,
         },
         credentials: 'include',
-        body: formData,
+        body: JSON.stringify({ avatarUrl: firebaseUrl }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        setAvatarUrl(data.avatarUrl);
+        setAvatarUrl(firebaseUrl);
+        // Force reload to update user context
+        window.location.reload();
         toast({
           title: 'Profile picture updated!',
-          description: 'Your avatar has been changed.',
+          description: 'Your avatar has been changed successfully.',
         });
       } else {
         throw new Error('Upload failed');
       }
     } catch (err) {
+      console.error('Avatar upload error:', err);
       toast({
         title: 'Upload failed',
         description: 'Please try again.',
