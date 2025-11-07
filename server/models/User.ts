@@ -3,9 +3,10 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IUser extends Document {
   name: string;
   email: string;
-  password: string;
+  password?: string; // Optional for Firebase users
   avatar?: string;
   firebaseUid?: string;
+  avatarUrl?: string; // Firebase avatar URL
   createdAt: Date;
   updatedAt: Date;
 }
