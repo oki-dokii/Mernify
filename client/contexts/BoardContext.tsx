@@ -75,14 +75,37 @@ export function BoardProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    // Only load boards after auth is complete
     if (authLoading) return;
-    
     refreshBoards();
 
+    // Set up socket listeners for real-time updates
+    const socket = getSocket();
+    
+    socket.on('card:created', (newCard: any) => {
+      setCards((prev) => [...prev, newCard]);
+    });
+    
+    socket.on('card:updated', (updatedCard: any) => {
+      setCards((prev) => prev.map(c => c._id === updatedCard._id ? updatedCard : c));
+    });
+    
+    socket.on('card:deleted', (cardId: string) => {
+      setCards((prev) => prev.filter(c => c._id !== cardId));
+    });
+    
+    socket.on('card:moved', ({ cardId, columnId }: { cardId: string; columnId: string }) => {
+      setCards((prev) => prev.map(c => c._id === cardId ? { ...c, columnId } : c));
+    });
+
     return () => {
+      // Clean up socket listeners
+      socket.off('card:created');
+      socket.off('card:updated');
+      socket.off('card:deleted');
+      socket.off('card:moved');
+      
+      // Clean up socket room when unmounting
       if (currentBoard) {
-        const socket = getSocket();
         socket.emit('leaveBoard', currentBoard._id);
       }
     };
