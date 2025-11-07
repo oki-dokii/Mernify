@@ -44,17 +44,52 @@ export default function Activity() {
     }
   };
 
-  const getIcon = (entityType: string) => {
-    switch (entityType) {
-      case 'card':
-        return CheckCircle2;
-      case 'note':
-        return MessageSquare;
-      case 'user':
-      case 'team':
-        return UserPlus;
-      default:
-        return Clock;
+  const getActivityStyle = (action: string) => {
+    if (action.includes('created')) {
+      return {
+        icon: Plus,
+        gradient: 'from-emerald-500/20 to-teal-500/20',
+        border: 'border-emerald-500/30',
+        iconBg: 'bg-emerald-500/20',
+        iconColor: 'text-emerald-400',
+        glow: 'shadow-emerald-500/20'
+      };
+    } else if (action.includes('updated') || action.includes('edited')) {
+      return {
+        icon: Edit3,
+        gradient: 'from-blue-500/20 to-indigo-500/20',
+        border: 'border-blue-500/30',
+        iconBg: 'bg-blue-500/20',
+        iconColor: 'text-blue-400',
+        glow: 'shadow-blue-500/20'
+      };
+    } else if (action.includes('deleted')) {
+      return {
+        icon: Trash2,
+        gradient: 'from-red-500/20 to-pink-500/20',
+        border: 'border-red-500/30',
+        iconBg: 'bg-red-500/20',
+        iconColor: 'text-red-400',
+        glow: 'shadow-red-500/20'
+      };
+    } else if (action.includes('joined') || action.includes('invited')) {
+      return {
+        icon: UserPlus,
+        gradient: 'from-violet-500/20 to-purple-500/20',
+        border: 'border-violet-500/30',
+        iconBg: 'bg-violet-500/20',
+        iconColor: 'text-violet-400',
+        glow: 'shadow-violet-500/20'
+      };
+    } else {
+      return {
+        icon: ActivityIcon,
+        gradient: 'from-indigo-500/20 to-violet-500/20',
+        border: 'border-indigo-500/30',
+        iconBg: 'bg-indigo-500/20',
+        iconColor: 'text-indigo-400',
+        glow: 'shadow-indigo-500/20'
+      };
     }
   };
 
