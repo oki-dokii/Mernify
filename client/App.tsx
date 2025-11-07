@@ -51,6 +51,7 @@ const App = () => (
                     <Route path="/activity" element={<Activity />} />
                     <Route path="/dashboard" element={<Placeholder />} />
                     <Route path="/invite" element={<Invite />} />
+                    <Route path="/invite/:token" element={<AcceptInvite />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/notes-editor" element={<NotesEditor />} />
