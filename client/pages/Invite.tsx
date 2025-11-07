@@ -196,7 +196,7 @@ export default function Invite() {
               variant="outline"
               onClick={copyLink}
               className="w-full h-12 rounded-full text-base"
-              disabled={!currentBoard}
+              disabled={!selectedBoardId || !boards || boards.length === 0}
             >
               <Copy className="mr-2 h-5 w-5" />
               Copy Invite Link
