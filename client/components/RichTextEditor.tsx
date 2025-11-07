@@ -124,11 +124,19 @@ export default function RichTextEditor({
         }
         
         .rich-text-editor .ql-stroke {
-          stroke: #4b5563;
+          stroke: rgba(255, 255, 255, 0.7);
         }
         
         .rich-text-editor .ql-fill {
-          fill: #4b5563;
+          fill: rgba(255, 255, 255, 0.7);
+        }
+        
+        .rich-text-editor .ql-picker-label {
+          color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .rich-text-editor .ql-editor.ql-blank::before {
+          color: rgba(255, 255, 255, 0.4);
         }
         
         /* Dark mode support */
