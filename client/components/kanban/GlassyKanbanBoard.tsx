@@ -45,39 +45,39 @@ const getColumnConfig = (title: string) => {
   if (lowerTitle.includes('progress') || lowerTitle === 'in progress') {
     return {
       icon: Clock,
-      gradient: 'from-violet-500/20 via-violet-400/10 to-transparent',
-      borderColor: 'border-violet-500/30',
-      glowColor: 'shadow-violet-500/20',
-      iconColor: 'text-violet-400',
-      badgeColor: 'bg-violet-500/20 text-violet-300 border-violet-400/30'
+      gradient: 'from-violet-500/40 via-violet-400/20 to-violet-500/5',
+      borderColor: 'border-violet-400/50',
+      glowColor: 'shadow-violet-500/30',
+      iconColor: 'text-violet-300',
+      badgeColor: 'bg-violet-500/30 text-violet-200 border-violet-400/50'
     };
   } else if (lowerTitle.includes('review')) {
     return {
       icon: Sparkles,
-      gradient: 'from-amber-500/20 via-amber-400/10 to-transparent',
-      borderColor: 'border-amber-500/30',
-      glowColor: 'shadow-amber-500/20',
-      iconColor: 'text-amber-400',
-      badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/30'
+      gradient: 'from-amber-500/40 via-amber-400/20 to-amber-500/5',
+      borderColor: 'border-amber-400/50',
+      glowColor: 'shadow-amber-500/30',
+      iconColor: 'text-amber-300',
+      badgeColor: 'bg-amber-500/30 text-amber-200 border-amber-400/50'
     };
   } else if (lowerTitle.includes('done') || lowerTitle.includes('complete')) {
     return {
       icon: CheckCircle2,
-      gradient: 'from-green-500/20 via-green-400/10 to-transparent',
-      borderColor: 'border-green-500/30',
-      glowColor: 'shadow-green-500/20',
-      iconColor: 'text-green-400',
-      badgeColor: 'bg-green-500/20 text-green-300 border-green-400/30'
+      gradient: 'from-emerald-500/40 via-emerald-400/20 to-emerald-500/5',
+      borderColor: 'border-emerald-400/50',
+      glowColor: 'shadow-emerald-500/30',
+      iconColor: 'text-emerald-300',
+      badgeColor: 'bg-emerald-500/30 text-emerald-200 border-emerald-400/50'
     };
   } else {
     // Default to "To Do" style
     return {
       icon: ListTodo,
-      gradient: 'from-blue-500/20 via-blue-400/10 to-transparent',
-      borderColor: 'border-blue-500/30',
-      glowColor: 'shadow-blue-500/20',
-      iconColor: 'text-blue-400',
-      badgeColor: 'bg-blue-500/20 text-blue-300 border-blue-400/30'
+      gradient: 'from-sky-500/40 via-sky-400/20 to-sky-500/5',
+      borderColor: 'border-sky-400/50',
+      glowColor: 'shadow-sky-500/30',
+      iconColor: 'text-sky-300',
+      badgeColor: 'bg-sky-500/30 text-sky-200 border-sky-400/50'
     };
   }
 };
