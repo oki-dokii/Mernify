@@ -6,9 +6,11 @@ import { useAuth } from './AuthContext';
 interface BoardContextType {
   currentBoard: Board | null;
   boards: Board[];
+  cards: any[];
   isLoading: boolean;
   error: string | null;
   setCurrentBoard: (board: Board | null) => void;
+  setCards: (cards: any[] | ((prev: any[]) => any[])) => void;
   refreshBoards: () => Promise<void>;
   createDemoBoard: () => Promise<void>;
 }
