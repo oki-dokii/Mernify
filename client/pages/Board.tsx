@@ -1,4 +1,4 @@
-import KanbanBoard from "@/components/kanban/KanbanBoard";
+import GlassyKanbanBoard from "@/components/kanban/GlassyKanbanBoard";
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { NotesPanel } from "@/components/notes/NotesPanel";
