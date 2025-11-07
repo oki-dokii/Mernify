@@ -1,0 +1,157 @@
+import React, { useMemo, useRef } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
+interface RichTextEditorProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  className?: string;
+}
+
+export default function RichTextEditor({ 
+  value, 
+  onChange, 
+  placeholder = "Start typing...",
+  className = ""
+}: RichTextEditorProps) {
+  const quillRef = useRef<ReactQuill>(null);
+
+  // Google Docs-like toolbar configuration
+  const modules = useMemo(() => ({
+    toolbar: {
+      container: [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'font': [] }],
+        [{ 'size': ['small', false, 'large', 'huge'] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'color': [] }, { 'background': [] }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+        [{ 'align': [] }],
+        ['blockquote', 'code-block'],
+        ['link', 'image', 'video'],
+        ['clean']
+      ],
+    },
+    clipboard: {
+      matchVisual: false,
+    },
+  }), []);
+
+  const formats = [
+    'header', 'font', 'size',
+    'bold', 'italic', 'underline', 'strike',
+    'color', 'background',
+    'script',
+    'list', 'bullet', 'check', 'indent',
+    'align',
+    'blockquote', 'code-block',
+    'link', 'image', 'video'
+  ];
+
+  return (
+    <div className={`rich-text-editor ${className}`}>
+      <ReactQuill
+        ref={quillRef}
+        theme="snow"
+        value={value}
+        onChange={onChange}
+        modules={modules}
+        formats={formats}
+        placeholder={placeholder}
+        className="h-full"
+      />
+      <style jsx global>{`
+        .rich-text-editor .ql-container {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+          font-size: 14px;
+          height: calc(100% - 42px);
+        }
+        
+        .rich-text-editor .ql-editor {
+          min-height: 200px;
+          padding: 16px;
+        }
+        
+        .rich-text-editor .ql-toolbar {
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+          background: rgba(255, 255, 255, 0.8);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          padding: 8px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 4px;
+        }
+        
+        .rich-text-editor .ql-container {
+          border-bottom-left-radius: 8px;
+          border-bottom-right-radius: 8px;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-top: none;
+          background: white;
+        }
+        
+        .rich-text-editor .ql-toolbar button {
+          width: 28px !important;
+          height: 28px !important;
+          padding: 4px !important;
+          border-radius: 4px;
+        }
+        
+        .rich-text-editor .ql-toolbar button:hover {
+          background: rgba(0, 0, 0, 0.05);
+        }
+        
+        .rich-text-editor .ql-toolbar button.ql-active {
+          background: rgba(99, 102, 241, 0.1);
+          color: rgb(99, 102, 241);
+        }
+        
+        .rich-text-editor .ql-picker {
+          font-size: 13px;
+        }
+        
+        .rich-text-editor .ql-editor.ql-blank::before {
+          color: rgba(0, 0, 0, 0.4);
+          font-style: normal;
+        }
+        
+        /* Dark mode support */
+        .dark .rich-text-editor .ql-toolbar {
+          background: rgba(0, 0, 0, 0.4);
+          border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark .rich-text-editor .ql-container {
+          background: rgba(0, 0, 0, 0.2);
+          border-color: rgba(255, 255, 255, 0.1);
+          color: white;
+        }
+        
+        .dark .rich-text-editor .ql-editor {
+          color: white;
+        }
+        
+        .dark .rich-text-editor .ql-toolbar button:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark .rich-text-editor .ql-stroke {
+          stroke: rgba(255, 255, 255, 0.8);
+        }
+        
+        .dark .rich-text-editor .ql-fill {
+          fill: rgba(255, 255, 255, 0.8);
+        }
+        
+        .dark .rich-text-editor .ql-picker-label {
+          color: rgba(255, 255, 255, 0.8);
+        }
+      `}</style>
+    </div>
+  );
+}
