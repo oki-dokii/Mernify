@@ -18,6 +18,8 @@ export const createCard: RequestHandler = async (req, res, next) => {
   try {
     const { boardId } = req.params; // Get boardId from URL params
     const { columnId, title, description, assigneeId, dueDate, tags } = req.body;
+    const userId = (req as any).userId;
+    
     const card = await Card.create({
       boardId,
       columnId,
@@ -29,6 +31,21 @@ export const createCard: RequestHandler = async (req, res, next) => {
       order: Date.now(),
       history: [],
     });
+
+    // Log activity
+    try {
+      const Activity = (await import('../models/Activity')).default;
+      await Activity.create({
+        userId,
+        boardId,
+        action: `created card "${title}"`,
+        targetType: 'card',
+        targetId: card._id,
+      });
+    } catch (activityErr) {
+      console.error('Failed to log activity:', activityErr);
+    }
+
     res.status(201).json({ card });
   } catch (err) {
     next(err);
